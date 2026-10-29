@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobTrack - Job Application Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#">jobtrack<span>.</span></a>
+      <p class="workspace-label">WORKSPACE</p>
+      <nav class="nav-menu">
+        <button class="nav-item active" data-view="all">▦ Overview</button>
+        <button class="nav-item" data-view="interviews">◷ Interviews <span id="interviewNavCount">0</span></button>
+        <button class="nav-item" data-view="offers">✦ Offers</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <strong>Small steps add up.</strong>
+        <p>Keep your applications organized and follow up with confidence.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button id="mobileMenu">☰</button>
+        <span>Workspace / <strong id="breadcrumbTitle">Overview</strong></span>
+        <span id="todayLabel"></span>
+      </header>
+
+      <section class="page-content">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">YOUR CAREER, ORGANIZED</p>
+            <h1 id="pageTitle">Good things take <span>tracking.</span></h1>
+            <p>Keep every opportunity in one place. Your next step starts here.</p>
+          </div>
+          <button class="primary-btn" id="addJobBtn">＋ Add application</button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p>Total applications</p>
+            <h2 id="totalCount">0</h2>
+          </article>
+          <article class="stat-card">
+            <p>In progress</p>
+            <h2 id="progressCount">0</h2>
+          </article>
+          <article class="stat-card">
+            <p>Interviews</p>
+            <h2 id="interviewCount">0</h2>
+          </article>
+          <article class="stat-card">
+            <p>Offers received</p>
+            <h2 id="offerCount">0</h2>
+          </article>
+        </div>
+
+        <section class="content-card">
+          <div class="list-heading">
+            <div>
+              <h2 id="listTitle">Your applications</h2>
+              <p>Manage and review your job search activity.</p>
+            </div>
+            <button class="secondary-btn" id="exportBtn">Export CSV</button>
+          </div>
+
+          <div class="toolbar">
+            <input id="searchInput" type="search" placeholder="Search company or role...">
+            <select id="statusFilter">
+              <option value="all">All statuses</option>
+              <option value="Applied">Applied</option>
+              <option value="Interview">Interview</option>
+              <option value="Offer">Offer</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+            <select id="sortSelect">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="company">Company A–Z</option>
+            </select>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>COMPANY / ROLE</th>
+                  <th>LOCATION</th>
+                  <th>APPLIED DATE</th>
+                  <th>STATUS</th>
+                  <th>NEXT STEP</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="applicationsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="emptyState" hidden>
+            <h3>No applications found</h3>
+            <p>Add your first application or change your search filters.</p>
+            <button class="primary-btn" id="emptyAddBtn">＋ Add application</button>
+          </div>
+
+          <div class="table-footer">
+            <span id="resultsLabel">Showing 0 applications</span>
+            <span>Saved in this browser</span>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitle">Add application</h2>
+          <p>Enter the details of the job you applied for.</p>
+        </div>
+        <button id="closeModalBtn" type="button">×</button>
+      </div>
+
+      <form id="jobForm">
+        <input type="hidden" id="jobId">
+
+        <div class="form-grid">
+          <label>Company name *
+            <input id="company" required maxlength="80" placeholder="e.g. Microsoft">
+          </label>
+          <label>Job role *
+            <input id="role" required maxlength="100" placeholder="e.g. Software Engineer">
+          </label>
+          <label>Location
+            <input id="location" maxlength="100" placeholder="Hyderabad / Remote">
+          </label>
+          <label>Status *
+            <select id="status" required>
+              <option>Applied</option>
+              <option>Interview</option>
+              <option>Offer</option>
+              <option>Rejected</option>
+            </select>
+          </label>
+          <label>Applied date *
+            <input id="appliedDate" type="date" required>
+          </label>
+          <label>Next step / interview date
+            <input id="nextStep" maxlength="120" placeholder="e.g. Technical interview">
+          </label>
+          <label class="full-field">Job posting link
+            <input id="jobLink" type="url" placeholder="https://company.com/careers">
+          </label>
+          <label class="full-field">Notes
+            <textarea id="notes" rows="3" maxlength="1000" placeholder="Preparation or follow-up notes"></textarea>
+          </label>
+        </div>
+
+        <p id="formError" class="form-error" hidden></p>
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelBtn">Cancel</button>
+          <button type="submit" class="primary-btn" id="saveJobBtn">Save application</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
